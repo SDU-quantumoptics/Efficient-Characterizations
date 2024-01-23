@@ -16,7 +16,9 @@ def load_data(state, j):
 def plot_fids_noises(final_denoise, final_tomo, final_normal):
     x = np.arange(1, 5+1, 1)
 
-    std_de = np.std(final_denoise, axis=1, ddof = 1)
+    # the uncertainty of Robust SLST considering both calibration and tomography is simulated by Monte Carlo method
+    std_de = np.load('./simul_calibration_shot_noise/uncertainty_cali_state_'+str(state)+'.npy') # load simulation results
+    
     std_to = np.std(final_tomo, axis=1, ddof = 1)
     std_no = np.std(final_normal, axis=1, ddof = 1)
 
@@ -116,7 +118,7 @@ if __name__ == '__main__':
     fids_RSLST = []
     fids_MLE = []
     fids_SLST = []
-    state = 3
+    state = 1
     for j in range(5):
         
         fid_RSLST, fid_MLE, fid_SLST = load_data(state, j)
@@ -124,14 +126,11 @@ if __name__ == '__main__':
         fids_MLE.append(fid_MLE)
         fids_SLST.append(fid_SLST)
         
-    
+    # plot the results of fidelity using 3 methods
     plot_fids_noises(fids_RSLST, fids_MLE, fids_SLST)
         
-        
     
     
     
-    
-    
-    
+
     
